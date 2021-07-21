@@ -52,20 +52,19 @@
                         </div>
                      </div>
                      <div class="iq-card-body">
-                        <form action="https://iqonic.design/themes/streamitnew/dashboard/html/theme/movie-view.html">
+                         <form action="../add?type=livetv" method="POST" enctype="multipart/form-data">
                            <div class="row">
                               <div class="col-lg-12">
                                  <div class="row">
                                     <div class="col-12 form-group">
-                                       <input type="text" class="form-control" placeholder="Title">
+                                        <input type="text" class="form-control" placeholder="Title" name="title">
                                     </div>
                                     <div class="col-12 form_gallery form-group">
                                        <label id="gallery2" for="form_gallery-upload">Upload Image</label>
-                                       <input data-name="#gallery2" id="form_gallery-upload" class="form_gallery-upload"
-                                          type="file" accept=".png, .jpg, .jpeg">
+                                       <input id="form_gallery-upload file" class="form_gallery-upload" accept=".png, .jpg, .jpeg" type="file" name="file">
                                     </div>
                                     <div class="col-12 form-group">
-                                       <textarea id="text" name="text" rows="5" class="form-control"
+                                       <textarea id="text" name="des" rows="5" class="form-control"
                                           placeholder="Description"></textarea>
                                     </div>
                                  </div>
@@ -73,7 +72,7 @@
                            </div>
                            <div class="row">
                               <div class="col-sm-12 form-group">
-                                  <input type="text" class="form-control" placeholder="Link live tv" value="http://">
+                                  <input type="text" class="form-control" name="link" placeholder="Link live tv" value="http://">
                               </div>
                               <div class="col-12 form-group ">
                                  <button type="submit" class="btn btn-primary">Submit</button>

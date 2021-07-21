@@ -26,6 +26,13 @@ public class LiveTV {
         this.des = des;
         this.link = link;
     }
+    
+    public LiveTV(String title, String image, String des, String link) {
+        this.title = title;
+        this.image = image;
+        this.des = des;
+        this.link = link;
+    }
 
     public int getId() {
         return id;

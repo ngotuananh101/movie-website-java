@@ -63,7 +63,7 @@ public class MovieDAO extends DBContext {
         }
         return mv;
     }
-    
+
     public List<Movie> getAllMovie() {
         List<Movie> listmo = new ArrayList<>();
         String sql = "SELECT [id]\n"
@@ -160,6 +160,38 @@ public class MovieDAO extends DBContext {
             st.execute();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public void updateMovie(int id, String title, String overview, String poster, String backdrop, float vote_average, int runtime, String release_date, String link, String quality, int category) {
+        String sql = "UPDATE [dbo].[Movies]\n"
+                + "   SET [title] = ?\n"
+                + "      ,[overview] = ?\n"
+                + "      ,[poster] = ?\n"
+                + "      ,[backdrop] = ?\n"
+                + "      ,[vote_average] = ?\n"
+                + "      ,[runtime] = ?\n"
+                + "      ,[release_date] = ?\n"
+                + "      ,[video_link] = ?\n"
+                + "      ,[quality] = ?\n"
+                + "      ,[category_id] = ?\n"
+                + " WHERE [id] = ?";
+        try {
+            PreparedStatement st = getConnection().prepareStatement(sql);
+            st.setString(1, title);
+            st.setString(2, overview);
+            st.setString(3, poster);
+            st.setString(4, backdrop);
+            st.setFloat(5, vote_average);
+            st.setInt(6, runtime);
+            st.setString(7, release_date);
+            st.setString(8, link);
+            st.setString(9, quality);
+            st.setInt(10, category);
+            st.setInt(11, id);
+            st.execute();
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 

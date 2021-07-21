@@ -6,12 +6,17 @@
 package com.tuananh.controller;
 
 import com.tuananh.dal.CategoryDAO;
+import com.tuananh.dal.MovieDAO;
+import com.tuananh.dal.UserDAO;
+import com.tuananh.model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.mail.Session;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -36,7 +41,7 @@ public class Edit extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Edit</title>");            
+            out.println("<title>Servlet Edit</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Edit at " + request.getContextPath() + "</h1>");
@@ -72,18 +77,56 @@ public class Edit extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String type = request.getParameter("type");
-        if(type.equalsIgnoreCase("movie")){
+        if (type.equalsIgnoreCase("movie")) {
             int id = Integer.parseInt(request.getParameter("id"));
-            
+            String title = request.getParameter("title");
+            String overview = request.getParameter("overview");
+            String poster = request.getParameter("poster");
+            String backdrop = request.getParameter("backdrop");
+            float vote_average = Float.parseFloat(request.getParameter("vote_average"));
+            int runtime = Integer.parseInt(request.getParameter("runtime"));
+            String release_date = request.getParameter("release_date");
+            String link = request.getParameter("link");
+            String quality = request.getParameter("quality");
+            int category = Integer.parseInt(request.getParameter("category"));
+            MovieDAO md = new MovieDAO();
+            md.updateMovie(id, title, overview, poster, backdrop, vote_average, runtime, release_date, link, quality, category);
             response.sendRedirect("admin/movie-list.jsp");
         }
-        if(type.equalsIgnoreCase("category")){
+        if (type.equalsIgnoreCase("category")) {
             int id = Integer.parseInt(request.getParameter("id"));
             String name = request.getParameter("name");
             String des = request.getParameter("des");
             CategoryDAO cd = new CategoryDAO();
             cd.updateCategory(id, name, des);
             response.sendRedirect("admin/category-list.jsp");
+        }
+        if (type.equalsIgnoreCase("user")) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            String name = request.getParameter("name");
+            String email = request.getParameter("email");
+            String username = request.getParameter("username");
+            UserDAO ud = new UserDAO();
+            ud.updateUser(id, name, username, email);
+            HttpSession session = request.getSession();
+            session.setAttribute("user", ud.getUser(id));
+            response.sendRedirect("web/user.jsp");
+        }
+        if (type.equalsIgnoreCase("pass")) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            String oldpass = request.getParameter("oldpass");
+            String newpass = request.getParameter("newpass");
+            UserDAO ud = new UserDAO();
+            HttpSession session = request.getSession();
+            User u = (User) session.getAttribute("user");
+            if (ud.checkPass(oldpass, u.getPassword())) {
+                String neww = ud.hashPass(newpass);
+                ud.updatePass(neww, id);
+                session.setAttribute("user", ud.getUser(id));
+                response.sendRedirect("web/changepass.jsp");
+            } else {
+                response.sendRedirect("web/changepass.jsp");
+            }
         }
     }
 

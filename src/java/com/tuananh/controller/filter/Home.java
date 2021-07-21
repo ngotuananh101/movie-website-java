@@ -118,7 +118,6 @@ public class Home implements Filter {
             } else {
                 res.sendRedirect("/netflix");
             }
-
         } catch (IOException | ServletException t) {
             // If an exception is thrown somewhere down the filter chain,
             // we still want to execute our after processing, and then

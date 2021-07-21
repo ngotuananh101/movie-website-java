@@ -124,10 +124,7 @@
                                                                         <form action="../edit?type=movie&id=${movie.getId()}" method="POST">
                                                                             <div class="modal-body">
                                                                                 <div class="form-group">
-                                                                                    <input type="text" class="form-control" placeholder="ID" name="id" value="${movie.getId()}" disabled>
-                                                                                </div>
-                                                                                <div class="form-group">
-                                                                                    <input type="text" class="form-control" placeholder="Title" name="name" value="${movie.getTitle()}">
+                                                                                    <input type="text" class="form-control" placeholder="Title" name="title" value="${movie.getTitle()}">
                                                                                 </div>
                                                                                 <div class="form-group">
                                                                                     <textarea class="form-control" name="overview" rows="4" cols="50" placeholder="Overview">${movie.getOverview()}</textarea>
@@ -139,10 +136,22 @@
                                                                                     <input type="text" class="form-control" placeholder="Backdrop" name="backdrop" value="${movie.getBackdrop()}">
                                                                                 </div>
                                                                                 <div class="form-group">
+                                                                                    <input type="text" class="form-control" placeholder="Vote average" name="vote_average" value="${movie.getVote_average()}">
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <input type="text" class="form-control" placeholder="Rumtime" name="runtime" value="${movie.getRuntime()}">
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <input type="text" class="form-control" placeholder="Release date" name="release_date" value="${movie.getRelease_date()}">
+                                                                                </div>
+                                                                                <div class="form-group">
                                                                                     <input type="text" class="form-control" placeholder="Link" name="link" value="${movie.getVideo_link()}">
                                                                                 </div>
                                                                                 <div class="form-group">
                                                                                     <input type="text" class="form-control" placeholder="Quality" name="quality" value="${movie.getQuality()}">
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <input type="text" class="form-control" placeholder="Category ID" name="category" value="${movie.getCategory_id()}">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="modal-footer">

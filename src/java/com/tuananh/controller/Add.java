@@ -5,12 +5,15 @@
  */
 package com.tuananh.controller;
 
+import com.tuananh.api.imgur.imgurUploader;
 import com.tuananh.api.tmdb.tmdbGetCategory;
 import com.tuananh.api.tmdb.tmdbGetMovieById;
 import com.tuananh.api.tmdb.tmdbJson;
 import com.tuananh.dal.CategoryDAO;
+import com.tuananh.dal.LiveTvDAO;
 import com.tuananh.dal.MovieDAO;
 import com.tuananh.model.Category;
+import com.tuananh.model.LiveTV;
 import com.tuananh.model.Movie;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -19,15 +22,18 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import org.apache.commons.net.ftp.FTPClient;
 
 /**
  *
  * @author ngotu
  */
+@MultipartConfig
 public class Add extends HttpServlet {
     private final static Logger LOGGER = Logger.getLogger(Add.class.getCanonicalName());
     /**
@@ -143,13 +149,21 @@ public class Add extends HttpServlet {
             response.sendRedirect("admin/add-movie2.jsp");
         }
         if (type.equalsIgnoreCase("livetv")) {
-            String tmdbid = request.getParameter("tmdbid");
             try {
-                MovieDAO md = new MovieDAO();
-                
-            } catch (Exception e) {
+                final Part filePart = request.getPart("file");
+                imgurUploader iu = new imgurUploader();
+                String image = iu.uploadAndGetLink(filePart);
+                String title = request.getParameter("title");
+                String des = request.getParameter("des");
+                String link = request.getParameter("link");
+                LiveTV lt = new LiveTV(title, image, des, link);
+                LiveTvDAO ltd = new LiveTvDAO();
+                ltd.addChannel(lt);
+                LOGGER.log(Level.INFO, "Add live tv Success: {0}", title);
+            } catch (IOException | ServletException e) {
+                LOGGER.log(Level.INFO, "Add live tv Error : {0}", e.getMessage());
             }
-            response.sendRedirect("admin/add-movie2.jsp");
+            response.sendRedirect("admin/add-tv-channel.jsp");
         }
     }
 

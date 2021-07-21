@@ -77,12 +77,12 @@ public class UserDAO extends DBContext {
         return users;
     }
 
-    public static boolean checkPass(String pass, String hashPass) {
+    public boolean checkPass(String pass, String hashPass) {
         boolean valuate = BCrypt.checkpw(pass, hashPass);
         return valuate;
     }
 
-    public static String hashPass(String pass) {
+    public String hashPass(String pass) {
         String hash = BCrypt.hashpw(pass, BCrypt.gensalt(12));
         return hash;
     }
@@ -157,8 +157,69 @@ public class UserDAO extends DBContext {
         }
     }
 
-//    public static void main(String[] args) {
-//        UserDAO ud = new UserDAO();
-//        System.out.println(ud.checkAccount("ngotuananh2101@gmail.com", "TuanAnh2101"));
-//    }
+    public int updateUser(int id, String name, String username, String email) {
+        String sql = "UPDATE [dbo].[Users]\n"
+                + "   SET [name] = ?\n"
+                + "      ,[email] = ?\n"
+                + "      ,[username] = ?\n"
+                + " WHERE [id] = ?";
+        try {
+            PreparedStatement st = getConnection().prepareStatement(sql);
+            st.setString(1, name);
+            st.setString(2, email);
+            st.setString(3, username);
+            st.setInt(4, id);
+            st.execute();
+            return 1;
+        } catch (Exception e) {
+            setErrorMessage(e.getMessage());
+            return 0;
+        }
+    }
+    
+    public int updatePass(String pass, int id) {
+        String sql = "UPDATE [dbo].[Users]\n"
+                + "   SET [password] = ?\n"
+                + " WHERE [id] = ?";
+        try {
+            PreparedStatement st = getConnection().prepareStatement(sql);
+            st.setString(1, "user");
+            st.setInt(5, id);
+            st.execute();
+            return 1;
+        } catch (Exception e) {
+            setErrorMessage(e.getMessage());
+            return 0;
+        }
+    }
+
+    public User getUser(int id) {
+        String sql = "SELECT TOP (1000) [id]\n"
+                + "      ,[role]\n"
+                + "      ,[name]\n"
+                + "      ,[email]\n"
+                + "      ,[username]\n"
+                + "      ,[password]\n"
+                + "      ,[avatar]\n"
+                + "  FROM [Users]"
+                + "  WHERE id=?";
+        try {
+            PreparedStatement st = getConnection().prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                String role = rs.getString("role");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                String avatar = rs.getString("avatar");
+                User u = new User(id, role, name, email, username, password, avatar);
+                return u;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
 }

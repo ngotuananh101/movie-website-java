@@ -80,7 +80,7 @@ public class Register extends HttpServlet {
         String username =request.getParameter("username");
         String email =request.getParameter("email");
         String pass =request.getParameter("password");
-        String password = UserDAO.hashPass(pass);
+        String password = ud.hashPass(pass);
         int check = ud.insertUsser(name, username, email, password);
         switch (check) {
             case -1:

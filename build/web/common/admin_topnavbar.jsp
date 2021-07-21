@@ -55,9 +55,9 @@
                                 <div class="iq-card-body p-0 ">
                                     <div class="bg-primary p-3">
                                         <h5 class="mb-0 text-white line-height">Hello <%=u.getName()%></h5>
-                                        <span class="text-white font-size-12">Available</span>
+                                        <span class="text-white font-size-12">Admin</span>
                                     </div>
-                                    <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
+<!--                                    <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
                                         <div class="media align-items-center">
                                             <div class="rounded iq-card-icon iq-bg-primary">
                                                 <i class="ri-file-user-line"></i>
@@ -100,7 +100,7 @@
                                                 <p class="mb-0 font-size-12">Control your privacy parameters.</p>
                                             </div>
                                         </div>
-                                    </a>
+                                    </a>-->
                                     <div class="d-inline-block w-100 text-center p-3">
                                         <a class="bg-primary iq-sign-btn" href="../logout" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
                                     </div>

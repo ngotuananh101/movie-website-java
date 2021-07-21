@@ -43,7 +43,7 @@ public class LiveTvDAO extends DBContext {
         }
         return listmo;
     }
-    
+
     public LiveTV getChannel(int cid) {
         String sql = "SELECT [id]\n"
                 + "      ,[title]\n"
@@ -70,7 +70,30 @@ public class LiveTvDAO extends DBContext {
         }
         return null;
     }
-    
+
+    public void addChannel(LiveTV tv) {
+        String sql = "INSERT INTO [dbo].[LiveTV]\n"
+                + "           ([title]\n"
+                + "           ,[description]\n"
+                + "           ,[image]\n"
+                + "           ,[link])\n"
+                + "     VALUES\n"
+                + "           (?\n"
+                + "           ,?\n"
+                + "           ,?\n"
+                + "           ,?)";
+        try {
+            PreparedStatement st = getConnection().prepareStatement(sql);
+            st.setString(1, tv.getTitle());
+            st.setString(2, tv.getDes());
+            st.setString(3, tv.getImage());
+            st.setString(4, tv.getLink());
+            st.execute();     
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public static void main(String[] args) {
         LiveTvDAO ld = new LiveTvDAO();
         System.out.println(ld.getChannel(0).getTitle());
